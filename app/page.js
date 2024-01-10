@@ -1,10 +1,10 @@
 "use client"; // This is a client component 👈🏽
-// import { getAllLocations } from "@/actions/location";
-import Hero from "@/components/Hero";
-import Layout from "@/components/Layout";
 import { Button, DatePicker, Select } from "antd";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
+import Hero from "../components/Hero";
+import { getAllLocations } from "../actions/location";
 
 const { Option } = Select;
 
@@ -67,8 +67,8 @@ export default function Home() {
   }, []);
 
   const fetchAllLocations = async () => {
-    // const locations = await getAllLocations();
-    // setLocations(locations);
+    const locations = await getAllLocations();
+    setLocations(locations);
   };
 
   return (
