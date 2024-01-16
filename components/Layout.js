@@ -1,5 +1,5 @@
 import Header from './Header';
-// import 'antd/dist/antd.css';
+import 'antd/dist/antd.css';
 
 import React from "react";
 

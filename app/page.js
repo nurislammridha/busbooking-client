@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Hero from "../components/Hero";
 import { getAllLocations } from "../actions/location";
+import { useRouter } from 'next/navigation'
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -31,14 +33,14 @@ export default function Home() {
   const [locations, setLocations] = useState([]);
   const [formData, setFormData] = useState({});
   const [disButton, setDisButton] = useState(true);
-
+  const Router = useRouter()
   const checkButtonDisabled = val => {
     threeLengthArray.push(val);
     if (threeLengthArray.length >= 3) {
       setDisButton(false)
     }
   };
-
+  console.log('formData', formData)
   const onChangeFrom = val => {
     setFormData({ ...formData, ...{ startLocation: val } });
     checkButtonDisabled(val);
@@ -49,17 +51,19 @@ export default function Home() {
     checkButtonDisabled(val);
   };
 
-  const onChangeDate = val => {
+  const onChangeDate = (val) => {
     const journeyDate = val && moment(val._d).format("YYYY-MM-DD");
     setFormData({ ...formData, ...{ journeyDate } });
     checkButtonDisabled(val);
   };
 
   const dummytransition = () => {
-    Router.push({
-      pathname: "/buses",
-      query: formData
-    });
+    // Router.push({
+    //   pathname: "/buses",
+    //   query: formData
+    // });
+    localStorage.setItem("formData", JSON.stringify(formData))
+    Router.push("/buses")
   };
 
   useEffect(() => {
@@ -75,7 +79,7 @@ export default function Home() {
     <>
       <Head>
         <title>Home</title>
-        <link rel="icon" href="../static/favicon.ico" importance="low" />
+        <link rel="icon" href="./favicon.ico" importance="low" />
       </Head>
       <Layout>
         <div className="hero">
@@ -141,14 +145,14 @@ export default function Home() {
                 <DatePicker
                   style={{ width: "20%" }}
                   format="YYYY-MM-DD"
-                  disabledDate={disabledDate}
-                  onChange={onChangeDate}
+                  disabledDate={() => disabledDate()}
+                  onChange={(e) => onChangeDate(e)}
                 />
                 <Button
                   type="primary"
                   icon="search"
                   style={{ marginLeft: "1rem" }}
-                  onClick={dummytransition}
+                  onClick={() => dummytransition()}
                   disabled={disButton}
                 >
                   Search

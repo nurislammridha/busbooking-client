@@ -1,55 +1,52 @@
+"use client"; // This is a client component 👈🏽
 import { Card, Row, Col, Modal, Button } from "antd";
-import Router from "next/router";
+import { useRouter } from 'next/navigation'
 import SeatDetails from "./seatDetails";
 import { API_ROOT } from "../../utils/config";
 import { enc, dec } from "../../utils/encdec";
+import React, { useState } from "react";
 
-class SingleCard extends React.Component {
-  state = { visible: false, userBooked: [] };
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-      loading: false
-    });
+const SingleCard = ({ bus }) => {
+  const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [userBooked, setUserBooked] = useState([])
+  const Router = useRouter()
+  const showModal = () => {
+    setVisible(true)
+    setLoading(true)
   };
 
-  handleUserBooked = (seat) => {
-    // let arr = [...this.state.userBooked];
-    // arr.push(seat);
-    // this.setState({userBooked: arr});
-    this.encryptInfo(seat);
-    // console.log(this.props)
+  const handleUserBooked = (seat) => {
+    encryptInfo(seat);
   }
 
-  handleOk = (info) => {
-    this.setState({ loading: true });
+  const handleOk = (info) => {
+    setLoading(true)
     setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-      Router.push({
-        pathname: "/details",
-        query: { info }
-      });
+      setLoading(false)
+      setVisible(false)
+      localStorage.setItem("info", JSON.stringify(info))
+      Router.push("/details");
     }, 1000);
   };
 
-  encryptInfo = seat => {
-    const { startLocation, endLocation, fare, journeyDate, travel = {}, slug } = this.props.bus;
+  const encryptInfo = (seat) => {
+    const { startLocation, endLocation, fare, journeyDate, travel = {}, slug } = bus;
     let start = startLocation.name;
     let end = endLocation.name;
     let travelName = travel.name;
     const info = { start, end, fare, journeyDate, travelName, seat, slug }
+    // console.log('bus', bus)
+    // console.log('info', info)
     const resp = enc(info);
-    this.handleOk(resp)
+    handleOk(resp)
   }
 
-  handleCancel = e => {
-    this.setState({
-      visible: false
-    });
+  const handleCancel = () => {
+    setVisible(false)
   };
 
-  seatColorMeaning = () => {
+  const seatColorMeaning = () => {
     return (
       <>
         <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'row-reverse' }}>
@@ -64,69 +61,68 @@ class SingleCard extends React.Component {
     )
   }
 
-  seatModal = () => (
+  const seatModal = () => (
     <Modal
       title="Seat Details"
-      visible={this.state.visible}
-      onCancel={this.handleCancel}
+      visible={visible}
+      onCancel={() => handleCancel()}
       footer={[
-        this.seatColorMeaning()
+        () => seatColorMeaning()
       ]}
       width={1000}
     >
       <SeatDetails
-        sold={this.props.bus.soldSeat}
+        sold={bus.soldSeat}
         setSold={() => { }}
-        booked={this.props.bus.bookedSeat}
+        booked={bus.bookedSeat}
         setBooked={() => { }}
         slug={"ss"}
-        handleUserBooked={this.handleUserBooked}
-        numberOfSeats={this.props.bus.numberOfSeats}
+        handleUserBooked={(seat) => handleUserBooked(seat)}
+        numberOfSeats={bus.numberOfSeats}
       />
     </Modal>
   );
 
-  render() {
-    const { bus } = this.props || { image: "" };
-    return (
-      <>
-        <Card
-          className="single-card"
-          style={{ width: "100%", marginBottom: "1rem" }}
-          onClick={this.showModal}
-        >
-          <Row>
-            <Col span={3}>
-              <img
-                src={`${API_ROOT}/uploads/${bus.image}`}
-                alt="suspense"
-                className="bus-thumbnail"
-              />
-            </Col>
-            <Col span={1}></Col>
-            <Col span={4}>
-              <p>{bus.travel ? bus.travel.name : null}</p>
-            </Col>
-            <Col span={4}>
-              <p>{bus.type}</p>
-            </Col>
-            <Col span={4}>
-              <strong>
-                <p>{bus.departure_time}</p>
-              </strong>
-            </Col>
-            <Col span={4}>
-              <p>{bus.seatsAvailable} seats</p>
-            </Col>
-            <Col span={4}>
-              <p>Rs {`${bus.fare}`}</p>
-            </Col>
-          </Row>
-        </Card>
-        {this.state.visible && this.seatModal()}
-      </>
-    );
-  }
+
+  return (
+    <>
+      <Card
+        className="single-card"
+        style={{ width: "100%", marginBottom: "1rem" }}
+        onClick={() => showModal()}
+      >
+        <Row>
+          <Col span={3}>
+            <img
+              src={`${API_ROOT}/uploads/${bus.image}`}
+              alt="suspense"
+              className="bus-thumbnail"
+            />
+          </Col>
+          <Col span={1}></Col>
+          <Col span={4}>
+            <p>{bus.travel ? bus.travel.name : null}</p>
+          </Col>
+          <Col span={4}>
+            <p>{bus.type}</p>
+          </Col>
+          <Col span={4}>
+            <strong>
+              <p>{bus.departure_time}</p>
+            </strong>
+          </Col>
+          <Col span={4}>
+            <p>{bus.seatsAvailable} seats</p>
+          </Col>
+          <Col span={4}>
+            <p>Rs {`${bus.fare}`}</p>
+          </Col>
+        </Row>
+      </Card>
+      {visible && seatModal()}
+    </>
+  );
 }
+
 
 export default SingleCard;

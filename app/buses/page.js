@@ -1,3 +1,4 @@
+"use client"; // This is a client component 👈🏽
 import Layout from "../../components/Layout";
 import SearchMenu from "./searchMenu";
 import Filters from "./filters";
@@ -8,17 +9,20 @@ import Param from "../../utils/checkQueryParam";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
 
-const Buses = ({ resp, info }) => {
+const Buses = () => {
   const [buses, setBuses] = useState([]);
+  const [info, setInfo] = useState({});
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
-    fetchBuses();
-  }, [resp]);
+    setInfo(JSON.parse(localStorage.getItem("formData")))
+    fetchAllBuses(JSON.parse(localStorage.getItem("formData")))
+  }, []);
+  const fetchAllBuses = async (data) => {
+    const buss = await searchBus(data);
+    setBuses(buss);
+  };
 
-  const fetchBuses = () => {
-    setBuses(resp)
-  }
+  console.log('cx', buses)
   return (
     <Layout>
       <Param info={info}>
@@ -36,12 +40,11 @@ const Buses = ({ resp, info }) => {
   );
 };
 
-Buses.getInitialProps = async ({
-  query: { startLocation, endLocation, journeyDate }
-}) => {
-  const info = { startLocation, endLocation, journeyDate };
-  const resp = await searchBus(info);
-  return { resp, info };
-};
+// Buses.getInitialProps = async () => {
+//   const info = JSON.parse(localStorage.getItem("formData"))
+//   console.log('info', info)
+//   const resp = await searchBus(info);
+//   return { resp, info };
+// };
 
 export default Buses;

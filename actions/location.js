@@ -9,6 +9,7 @@ export const getAllLocations = async () => {
 };
 
 export const searchBus = async query => {
+  console.log('query', query)
   const queryData = queryString.stringify(query);
   const resp = await fetch(`${API}/bus/search?${queryData}`);
   const response = await resp.json();

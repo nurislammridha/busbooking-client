@@ -1,12 +1,13 @@
+"use client"; // This is a client component 👈🏽
 import { useEffect } from "react";
-import Router from "next/router";
-
-const Param = ({ children, info }) => {
-  useEffect(() => {
-    if (Object.keys(info).length <= 0) {
-      Router.push("/");
-    }
-  }, []);
+import { useRouter } from 'next/navigation'
+const Param = ({ children, info = {} }) => {
+  const Router = useRouter()
+  // useEffect(() => {
+  //   if (Object.keys(info).length <= 0) {
+  //     Router.push("/");
+  //   }
+  // }, []);
   return <>{children}</>;
 };
 
