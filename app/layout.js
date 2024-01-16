@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <Script src="../static/script.js" />
+        <Script src="../static/script.js" async />
       </head>
       <body className={inter.className}>{children}</body>
     </html>

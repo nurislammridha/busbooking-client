@@ -9,7 +9,8 @@ const Hero = () => {
 
 const styles = {
   hero: {
-    background: 'url("../static/img/bus.jpg")',
+    // background: 'url("../static/img/bus.jpg")',
+    background: 'url("https://res.cloudinary.com/nurislammridha/image/upload/v1705415296/zf8eesepunsixovaimlq.jpg")',
     height: "92vh",
     backgroundRepeat: "noRepeat",
     backgroundSize: "cover"
