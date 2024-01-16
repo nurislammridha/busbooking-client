@@ -62,7 +62,7 @@ export default function Home() {
     //   pathname: "/buses",
     //   query: formData
     // });
-    localStorage.setItem("formData", JSON.stringify(formData))
+    typeof window !== 'undefined' && localStorage.setItem("formData", JSON.stringify(formData))
     Router.push("/buses")
   };
 

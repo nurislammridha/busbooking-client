@@ -22,7 +22,7 @@ const Buses = () => {
     setBuses(buss);
   };
 
-  console.log('cx', buses)
+
   return (
     <Layout>
       <Param info={info}>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { postSoldSeat } from "../../../Utils/Requests/Booking";
 import Swal from "sweetalert2";
 import { Button } from "antd";
 
@@ -70,7 +69,8 @@ class SeatDetails extends Component {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={styles.wrapper}>
           <div className="steer" style={styles.steer}>
-            <img style={styles.img} src="/static/img/steer.png" />
+            {/* <img style={styles.img} src="/static/img/steer.png" /> */}
+            <img style={styles.img} src="/static/img/steer.png" alt="jhgjg" />
           </div>
           <div style={styles.busDiv}>
             {sold && booked && (<>

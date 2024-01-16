@@ -36,8 +36,7 @@ const SingleCard = ({ bus }) => {
     let end = endLocation.name;
     let travelName = travel.name;
     const info = { start, end, fare, journeyDate, travelName, seat, slug }
-    // console.log('bus', bus)
-    // console.log('info', info)
+
     const resp = enc(info);
     handleOk(resp)
   }

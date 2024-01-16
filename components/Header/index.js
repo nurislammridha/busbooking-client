@@ -4,7 +4,7 @@ import Link from "next/link";
 // import Router from "next/router";
 import { useRouter } from 'next/navigation'
 
-import NProgress from "nprogress";
+// import NProgress from "nprogress";
 import "./nprogress.css";
 
 import { Layout, Menu } from "antd";

@@ -1,7 +1,6 @@
 import SingleCard from "./singleCard";
 import { Row, Col } from "antd";
 import { useCallback } from "react";
-// import NepaliDate from "ad-bs-converter";
 
 const Cards = ({ buses = [] }) => {
   const calculateEmptySeats = useCallback(() => {
@@ -16,10 +15,7 @@ const Cards = ({ buses = [] }) => {
     return totalAvailable;
   }, [buses])
 
-  // const nepaliDate =
-  //   buses[0] &&
-  //   NepaliDate.ad2bs(buses[0].journeyDate.replace("-", "/").replace("-", "/"))
-  //     .en || Date.now();
+
 
   const markup =
     buses.length <= 0 ? (
@@ -32,9 +28,7 @@ const Cards = ({ buses = [] }) => {
             <strong>{buses.length}</strong> buses
           </h2>
         </div>
-        {/* <h4 className="card-header" style={{ color: "red" }}>
-          {`Date: ${nepaliDate.strMonth} ${nepaliDate.day}, ${nepaliDate.year}`}
-        </h4> */}
+
         <div>
           <hr />
           <Row className="buses-header">

@@ -5,9 +5,6 @@ import {
   Col,
   Card,
   Input,
-  Select,
-  AutoComplete,
-  InputNumber,
   Button
 } from "antd";
 import Swal from "sweetalert2";
@@ -24,21 +21,9 @@ const Details = (props) => {
   const [phone, setPhone] = useState("")
   const [address, setAddress] = useState("")
   const Router = useRouter()
-  const infoDetails = dec(JSON.parse(localStorage.getItem('info')));
+  const infoDetails = dec(typeof window !== 'undefined' && JSON.parse(localStorage.getItem('info')));
   // console.log('infossss', info)
-  const handleAutoComplete = (value) => {
-    setDataSource({
-      dataSource:
-        !value || value.indexOf("@") >= 0
-          ? []
-          : [
-            `${value}@gmail.com`,
-            `${value}@hotmail.com`,
-            `${value}@yahoo.com`
-          ],
-      email: value
-    });
-  };
+
   const handleSubmit = async () => {
     const seatNumber = infoDetails.seat;
     const info = { name, phone: parseInt(phone) || 7234567765, address, email, seatNumber };

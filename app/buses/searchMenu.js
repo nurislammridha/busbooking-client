@@ -1,8 +1,8 @@
-import { Select, Button, Input, DatePicker } from "antd";
+import { Select, Button, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { getAllLocations } from "../../actions/location";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 const { Option } = Select;
 
@@ -24,6 +24,7 @@ function disabledDate(current) {
 }
 
 const SearchMenu = ({ buses, info = {} }) => {
+  const Router = useRouter()
   const [locations, setLocations] = useState([]);
   const [formData, setFormData] = useState({
     startLocation: info.startLocation,
@@ -45,10 +46,8 @@ const SearchMenu = ({ buses, info = {} }) => {
   };
 
   const routeTransition = () => {
-    Router.push({
-      pathname: "/buses",
-      query: formData
-    });
+    typeof window !== 'undefined' && localStorage.setItem("formData", JSON.stringify(formData))
+    Router.push("/buses");
   };
 
   useEffect(() => {
